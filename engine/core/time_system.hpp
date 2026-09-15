@@ -1,7 +1,5 @@
 #pragma once
 
-#include "engine/config.hpp"
-
 // Forward Declaration
 namespace dull::core { struct Engine; }
 
@@ -17,15 +15,16 @@ namespace dull::core {
         double _accumulator {0.0};
         double _gameTime    {0.0};
 
+        double _fixedTickInterval {1.0 / 30.0}; // 30 FPS
+
         explicit TimeSystem() = default;
         ~TimeSystem() = default;
 
         void _Update(double frameTime) noexcept;
         bool _ShouldFixedUpdate() noexcept;
+        void _SetTickInterval(double frameTime) noexcept { this->_fixedTickInterval = frameTime; }
 
     public:
-        static constexpr double FIXED_TICK_INTERVAL = 1.0 / config::TICKS_PER_SECOND;
-
         constexpr TimeSystem(TimeSystem&&)                 noexcept = delete;
         constexpr TimeSystem(const TimeSystem&)            noexcept = delete;
         constexpr TimeSystem& operator=(TimeSystem&&)      noexcept = delete;

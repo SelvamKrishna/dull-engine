@@ -30,12 +30,12 @@ namespace dull::render {
 
         void DrawRectangle(
             const util::Rect& rectangle,
-            const DrawContext& ctxDraw = {},
+            const util::Transform2D& transform = {},
             const ShapeContext& ctxShape = {}
         ) const;
 
         void DrawCircle(
-            const DrawContext& ctxDraw = {},
+            const util::Transform2D& transform = {},
             const ShapeContext& ctxShape = {}
         ) const;
 
@@ -48,7 +48,7 @@ namespace dull::render {
         #warning "TODO: `rl::Font` wrapper class"
         void DrawText(
             std::string_view text,
-            const DrawContext& ctxDraw = {},
+            const util::Transform2D& transform = {},
             const TextContext& ctxText = {}
         ) const;
 

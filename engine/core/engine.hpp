@@ -18,13 +18,16 @@ namespace dull::util {
     struct WindowContext final {
         std::string title {config::GetConfigString()};
         core::Window::Dimension dimension {600, 800};
-        bool isVsync {false};
+        uint32_t fixedFPS {60};
+
+        bool isVsync      {false};
         bool isResizeable {false};
+        bool isFullscreen {false};
     };
 
     struct ProcessContext final {
-        core::IProcessor*    ptrProcessor {nullptr};
-        render::IRenderer* ptrRenderSys {nullptr};
+        core::IProcessor*  ptrProcessor {nullptr};
+        render::IRenderer* ptrRenderer {nullptr};
     };
 
     struct GlobalAccessor final {
@@ -68,7 +71,7 @@ namespace dull::core {
         [[nodiscard]] static bool IsInitialized() noexcept { return GetInstance()._isInitialized; }
 
         static void Init(const util::WindowContext&& ctxWindow) noexcept;
-        static void Run(util::ProcessContext ctxProcess) noexcept;
+        static void Run(const util::ProcessContext&& ctxProcess) noexcept;
         static void Quit() noexcept;
     };
 

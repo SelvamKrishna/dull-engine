@@ -18,6 +18,7 @@
 
 // Util
 #include <engine/util/adapter.hpp>
+#include <engine/util/camera.hpp>
 #include <engine/util/color.hpp>
 #include <engine/util/rect.hpp>
 #include <engine/util/transform.hpp>

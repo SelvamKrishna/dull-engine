@@ -15,37 +15,37 @@ namespace dull::render {
 
     void DrawHandle::DrawRectangle(
         const util::Rect& rectangle,
-        const DrawContext& ctxDraw,
+        const util::Transform2D& transform,
         const ShapeContext& ctxShape
     ) const {
         util::Rect rectangleModified {rectangle};
-        rectangleModified.Move(ctxDraw.transform.position);
-        rectangleModified.Scale(ctxDraw.transform.scale);
+        rectangleModified.Move(transform.position);
+        rectangleModified.Scale(transform.scale);
 
         rl::DrawRectanglePro(
             rectangleModified,
             rl_cast(rectangleModified.GetDimension() * 0.5f),
-            ctxDraw.transform.rotation.as_deg(),
+            transform.rotation.as_deg(),
             ctxShape.fillColor
         );
 
         if (ctxShape.HasOutline()) rl::DrawRectangleLinesEx(
-            rectangle, ctxShape.outlineThinkness, ctxShape.outlineColor
+            rectangleModified, ctxShape.outlineThinkness, ctxShape.outlineColor
         );
     }
 
     void DrawHandle::DrawCircle(
-        const DrawContext& ctxDraw,
+        const util::Transform2D& transform,
         const ShapeContext& ctxShape
     ) const
     {
         if (ctxShape.HasOutline()) rl::DrawCircleV(
-            rl_cast(ctxDraw.transform.position),
-            ctxDraw.transform.GetScaleUnit() + ctxShape.outlineThinkness,
+            rl_cast(transform.position),
+            transform.GetScaleUnit() + ctxShape.outlineThinkness,
             ctxShape.outlineColor
         );
 
-        rl::DrawCircleV(rl_cast(ctxDraw.transform.position), ctxDraw.transform.GetScaleUnit(), ctxShape.fillColor);
+        rl::DrawCircleV(rl_cast(transform.position), transform.GetScaleUnit(), ctxShape.fillColor);
     }
 
     void DrawHandle::DrawLine(
@@ -60,20 +60,20 @@ namespace dull::render {
         );
     }
 
-    void DrawHandle::DrawText(std::string_view text, const DrawContext& ctxDraw, const TextContext& ctxText) const
+    void DrawHandle::DrawText(std::string_view text, const util::Transform2D& transform, const TextContext& ctxText) const
     {
         thread_local std::string buffer {text};
         buffer.assign(text.data(), text.size());
 
         rl::DrawTextPro(
             ctxText.font,
-            text.data(),
-            rl_cast(ctxDraw.transform.position),
+            buffer.c_str(),
+            rl_cast(transform.position),
             rl_cast(ctxText.origin),
-            ctxDraw.transform.rotation.as_rad(),
-            ctxDraw.transform.GetScaleUnit(),
+            transform.rotation.as_rad(),
+            transform.GetScaleUnit(),
             ctxText.spacing,
-            ctxDraw.tintOverlay
+            ctxText.fillColor
         );
     }
 

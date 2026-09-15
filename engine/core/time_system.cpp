@@ -15,8 +15,8 @@ namespace dull::core {
 
     bool TimeSystem::_ShouldFixedUpdate() noexcept
     {
-        if (this->_accumulator < TimeSystem::FIXED_TICK_INTERVAL) return false;
-        this->_accumulator -= TimeSystem::FIXED_TICK_INTERVAL;
+        if (this->_accumulator < this->_fixedTickInterval) return false;
+        this->_accumulator -= this->_fixedTickInterval;
         return true;
     }
 

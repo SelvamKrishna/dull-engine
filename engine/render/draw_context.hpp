@@ -33,10 +33,12 @@ namespace dull::render {
     };
 
     struct TextContext {
-        rl::Font    font     {rl::GetFontDefault()};
-        zen::vec2   origin   {0};
-        float       spacing  {2.0F};
+        util::Color fillColor {color::WHITE};
+        rl::Font    font      {rl::GetFontDefault()};
+        zen::vec2   origin    {0};
+        float       spacing   {2.0F};
 
+        _BUILD_FN(TextContext, WithColor, util::Color, fillColor, fillColor)
         _BUILD_FN(TextContext, WithFont, rl::Font, font, font)
         _BUILD_FN(TextContext, WithOrigin, zen::vec2, origin, origin)
         _BUILD_FN(TextContext, WithSpacing, float, spacing, spacing)

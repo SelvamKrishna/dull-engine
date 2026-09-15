@@ -28,7 +28,8 @@ namespace dull::core {
 
         rl::SetConfigFlags(static_cast<unsigned int>(
             (ctxWindow.isVsync      ? rl::FLAG_VSYNC_HINT       : 0) |
-            (ctxWindow.isResizeable ? rl::FLAG_WINDOW_RESIZABLE : 0)
+            (ctxWindow.isResizeable ? rl::FLAG_WINDOW_RESIZABLE : 0) |
+            (ctxWindow.isFullscreen ? rl::FLAG_FULLSCREEN_MODE  : 0)
         ));
 
         rl::InitWindow(ctxWindow.dimension[0], ctxWindow.dimension[1], ctxWindow.title.c_str());
@@ -44,11 +45,12 @@ namespace dull::core {
         zen::log_process process {"Initializing Engine", &Engine::_LOG};
         Engine& inst {DULL_INST};
 
-        if (Engine::IsInitialized())
+        if (inst._isInitialized)
             return process.log_fallback("Engine Already Initialized");
 
-        inst._InitWindow(std::move(ctxWindow));
+        inst.timeSys._SetTickInterval(1.0 / ctxWindow.fixedFPS);
         inst._ctxWindow = std::make_unique<util::WindowContext>(ctxWindow);
+        inst._InitWindow(std::move(ctxWindow));
         inst._isInitialized = true;
 
         process.log_success();
@@ -63,17 +65,20 @@ namespace dull::core {
         inst._ctxProcess = std::make_unique<util::ProcessContext>();
 
         inst._ctxProcess->ptrProcessor = (ctxProcess.ptrProcessor == nullptr)
-            ? new DirectProcessor {}
+            ? new IProcessor {}
             : ctxProcess.ptrProcessor;
 
-        inst._ctxProcess->ptrRenderSys = (ctxProcess.ptrRenderSys == nullptr)
+        inst._ctxProcess->ptrRenderer = (ctxProcess.ptrRenderer == nullptr)
             ? new render::IRenderer {}
-            : ctxProcess.ptrRenderSys;
+            : ctxProcess.ptrRenderer;
+
+        inst._ctxProcess->ptrProcessor->IInit();
+        inst._ctxProcess->ptrRenderer->IInit();
 
         inst._isRunning = true;
-        inst._ctxProcess->ptrProcessor->IInit();
-        inst._ctxProcess->ptrRenderSys->IInit();
-
+        process.log_panic_if(!Engine::IsRunning(), "Engine Not Running");
+        process.log_panic_if(inst._ctxProcess->ptrProcessor == nullptr, "Invalid Processor");
+        process.log_panic_if(inst._ctxProcess->ptrRenderer == nullptr, "Invalid Renderer");
         process.log_success();
     }
 
@@ -85,7 +90,7 @@ namespace dull::core {
         if (!Engine::IsRunning() && !Engine::IsInitialized()) return;
 
         inst._ctxProcess->ptrProcessor->IShutdown();
-        inst._ctxProcess->ptrRenderSys->IShutdown();
+        inst._ctxProcess->ptrRenderer->IShutdown();
 
         if (rl::IsWindowReady()) rl::CloseWindow();
 
@@ -94,16 +99,16 @@ namespace dull::core {
         process.log_success();
     }
 
-    void Engine::Run(util::ProcessContext ctxProcess) noexcept
+    void Engine::Run(const util::ProcessContext&& ctxProcess) noexcept
     {
         zen::log_process process {"Running Application", &Engine::_LOG};
+        process.log_panic_if(!Engine::IsInitialized(), "Engine Un-Initialized");
+
         Engine& inst {DULL_INST};
         TimeSystem& timeSystem {inst.timeSys};
         AudioSystem& audioSystem {inst.audioSys};
 
-        process.log_panic_if(!Engine::IsInitialized(), "Engine Un-Initialized");
         Engine::_InitSystems(std::move(ctxProcess));
-        process.log_panic_if(!Engine::IsRunning(), "Engine Not Running");
 
         util::GlobalAccessor globalAccessor {
             .refWindow {inst.window},
@@ -123,9 +128,9 @@ namespace dull::core {
                 #warning "TODO: Physics logic goes here"
             }
 
-            render::DrawHandle drawHandle {*inst._ctxProcess->ptrRenderSys};
+            render::DrawHandle drawHandle {*inst._ctxProcess->ptrRenderer};
             inst._ctxProcess->ptrProcessor->IDraw(drawHandle);
-            inst._ctxProcess->ptrRenderSys->IDraw();
+            inst._ctxProcess->ptrRenderer->IDraw(drawHandle);
         }
 
         inst._ShutdownSystems();
