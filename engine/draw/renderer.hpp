@@ -2,9 +2,9 @@
 
 // Forward Declaration
 namespace dull::core { struct Engine; }
-namespace dull::render { struct DrawHandle; }
+namespace dull::draw { struct DrawHandle; }
 
-namespace dull::render {
+namespace dull::draw {
 
     struct IRenderer {
         friend core::Engine;
@@ -18,4 +18,4 @@ namespace dull::render {
         virtual void IShutdown() {}
     };
 
-} // namespace dull::render
+} // namespace dull::draw

@@ -2,7 +2,7 @@
 #include "engine/core/processor.hpp"
 #include "engine/core/time_system.hpp"
 #include "engine/core/audio_system.hpp"
-#include "engine/render/draw_handle.hpp"
+#include "engine/draw/draw_handle.hpp"
 
 #include <zen/log.hpp>
 #include <vendor/raylib.h>
@@ -69,7 +69,7 @@ namespace dull::core {
             : ctxProcess.ptrProcessor;
 
         inst._ctxProcess->ptrRenderer = (ctxProcess.ptrRenderer == nullptr)
-            ? new render::IRenderer {}
+            ? new draw::IRenderer {}
             : ctxProcess.ptrRenderer;
 
         inst._ctxProcess->ptrProcessor->IInit();
@@ -128,7 +128,7 @@ namespace dull::core {
                 #warning "TODO: Physics logic goes here"
             }
 
-            render::DrawHandle drawHandle {*inst._ctxProcess->ptrRenderer};
+            draw::DrawHandle drawHandle {*inst._ctxProcess->ptrRenderer};
             inst._ctxProcess->ptrProcessor->IDraw(drawHandle);
             inst._ctxProcess->ptrRenderer->IDraw(drawHandle);
         }

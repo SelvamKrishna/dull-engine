@@ -1,4 +1,4 @@
-#include "engine/render/draw_handle.hpp"
+#include "engine/draw/draw_handle.hpp"
 #include "engine/util/adapter.hpp"
 
 #include <zen/log.hpp>
@@ -6,7 +6,7 @@
 
 #include <vendor/raylib.h>
 
-namespace dull::render {
+namespace dull::draw {
 
     DrawHandle::DrawHandle(IRenderer& refRenderer) : _refRenderer {refRenderer}
     { rl::BeginDrawing(); rl::ClearBackground(color::BLACK); }
@@ -79,4 +79,4 @@ namespace dull::render {
 
     void DrawHandle::DrawFPS(int posX, int posY) const { rl::DrawFPS(posX, posY); }
 
-} // namespace dull::render
+} // namespace dull::draw

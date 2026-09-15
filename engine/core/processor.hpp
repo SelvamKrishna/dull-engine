@@ -1,9 +1,9 @@
 #pragma once
 
 // Forward Declaration
-namespace dull::util   { struct GlobalAccessor; }
-namespace dull::core   { struct Engine; }
-namespace dull::render { struct DrawHandle; }
+namespace dull::core { struct Engine; }
+namespace dull::draw { struct DrawHandle; }
+namespace dull::util { struct GlobalAccessor; }
 
 namespace dull::core {
 
@@ -17,7 +17,7 @@ namespace dull::core {
         virtual void IInit() {}
         virtual void IUpdate(const util::GlobalAccessor&) {}
         virtual void IFixedUpdate(const util::GlobalAccessor&) {}
-        virtual void IDraw(const render::DrawHandle&) {}
+        virtual void IDraw(const draw::DrawHandle&) {}
         virtual void IShutdown() {}
     };
 

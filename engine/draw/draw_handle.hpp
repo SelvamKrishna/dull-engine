@@ -1,7 +1,7 @@
 #pragma once
 
-#include "engine/render/renderer.hpp"
-#include "engine/render/draw_context.hpp"
+#include "engine/draw/renderer.hpp"
+#include "engine/draw/draw_context.hpp"
 #include "engine/util/rect.hpp"
 
 #include <zen/math/vec2.hpp>
@@ -9,7 +9,7 @@
 // Forward Declaration
 namespace dull::core { struct Engine; }
 
-namespace dull::render {
+namespace dull::draw {
 
     struct DrawHandle {
         friend core::Engine;
@@ -55,4 +55,4 @@ namespace dull::render {
         void DrawFPS(int posX, int posY) const;
     };
 
-} // namespace dull::render
+} // namespace dull::draw

@@ -3,7 +3,7 @@
 #include "engine/util/transform.hpp"
 #include "engine/util/color.hpp"
 
-namespace dull::render {
+namespace dull::draw {
 
     using ZIndex = uint32_t;
 
@@ -46,4 +46,4 @@ namespace dull::render {
 
     #undef _BUILD_FN
 
-} // namespace dull::render
+} // namespace dull::draw
