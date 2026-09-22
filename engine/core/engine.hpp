@@ -4,7 +4,7 @@
 #include "engine/core/window.hpp"
 #include "engine/core/audio_system.hpp"
 #include "engine/core/time_system.hpp"
-#include "engine/core/render_system.hpp"
+#include "engine/draw/renderer.hpp"
 
 #include <zen/log.hpp>
 
@@ -18,13 +18,16 @@ namespace dull::util {
     struct WindowContext final {
         std::string title {config::GetConfigString()};
         core::Window::Dimension dimension {600, 800};
-        bool isVsync {false};
+        uint32_t fixedFPS {60};
+
+        bool isVsync      {false};
         bool isResizeable {false};
+        bool isFullscreen {false};
     };
 
     struct ProcessContext final {
-        core::IProcessor*    ptrProcessor {nullptr};
-        core::IRenderSystem* ptrRenderSys {nullptr};
+        core::IProcessor*  ptrProcessor {nullptr};
+        draw::IRenderer* ptrRenderer {nullptr};
     };
 
     struct GlobalAccessor final {
@@ -68,7 +71,7 @@ namespace dull::core {
         [[nodiscard]] static bool IsInitialized() noexcept { return GetInstance()._isInitialized; }
 
         static void Init(const util::WindowContext&& ctxWindow) noexcept;
-        static void Run(util::ProcessContext ctxProcess) noexcept;
+        static void Run(const util::ProcessContext&& ctxProcess) noexcept;
         static void Quit() noexcept;
     };
 

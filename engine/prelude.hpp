@@ -8,16 +8,17 @@
 #include <engine/core/processor.hpp>
 
 // Render
-#include <engine/render/draw_handle.hpp>
-#include <engine/render/draw_context.hpp>
+#include <engine/draw/draw_handle.hpp>
+#include <engine/draw/draw_context.hpp>
+#include <engine/draw/renderer.hpp>
 
 // System
 #include <engine/core/audio_system.hpp>
-#include <engine/core/render_system.hpp>
 #include <engine/core/audio_system.hpp>
 
 // Util
 #include <engine/util/adapter.hpp>
+#include <engine/util/camera.hpp>
 #include <engine/util/color.hpp>
 #include <engine/util/rect.hpp>
 #include <engine/util/transform.hpp>

@@ -2,19 +2,20 @@
 
 // Forward Declaration
 namespace dull::core { struct Engine; }
+namespace dull::draw { struct DrawHandle; }
 
-namespace dull::core {
+namespace dull::draw {
 
-    struct IRenderSystem {
+    struct IRenderer {
         friend core::Engine;
 
     public:
-        virtual ~IRenderSystem() = default;
+        virtual ~IRenderer() = default;
 
     protected:
         virtual void IInit() {}
-        virtual void IDraw() {}
+        virtual void IDraw(const DrawHandle&) {}
         virtual void IShutdown() {}
     };
 
-} // namespace dull::core
+} // namespace dull::draw

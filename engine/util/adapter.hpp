@@ -64,4 +64,5 @@ namespace dull::util {
 
 } // namespace dull::util
 
-#define rl_cast ::dull::util::CastRL
+#define rl_cast(e) \
+    ::dull::util::CastRL(e)
