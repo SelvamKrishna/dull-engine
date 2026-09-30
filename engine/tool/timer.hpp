@@ -1,6 +1,6 @@
 #pragma once
 
-namespace dull::component {
+namespace dull::tool {
 
     struct Timer {
     private:
@@ -24,4 +24,4 @@ namespace dull::component {
         void SetMeasureTime(double measureTime) noexcept;
     };
 
-} // namespace dull::component
+} // namespace dull::tool

@@ -1,8 +1,8 @@
-#include "engine/component/timer.hpp"
+#include "engine/tool/timer.hpp"
 
 #include <vendor/raylib.h>
 
-namespace dull::component {
+namespace dull::tool {
 
     Timer::Timer(double measureTime, bool isLooping) noexcept
         : _timeMeasure {measureTime}, _isLooping {isLooping}
@@ -49,4 +49,4 @@ namespace dull::component {
         this->_timeMeasure = measureTime;
     }
 
-} // namespace dull::component
+} // namespace dull::tool

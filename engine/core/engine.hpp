@@ -26,8 +26,8 @@ namespace dull::util {
     };
 
     struct ProcessContext final {
-        core::IProcessor*  ptrProcessor {nullptr};
-        draw::IRenderer* ptrRenderer {nullptr};
+        core::IProcessor* ptrProcessor {nullptr};
+        draw::IRenderer*  ptrRenderer  {nullptr};
     };
 
     struct GlobalAccessor final {
@@ -46,7 +46,7 @@ namespace dull::core {
         bool _isRunning {false};
         bool _isInitialized {false};
 
-        std::unique_ptr<util::WindowContext> _ctxWindow;
+        std::unique_ptr<util::WindowContext>  _ctxWindow;
         std::unique_ptr<util::ProcessContext> _ctxProcess;
 
         Engine() = default;
