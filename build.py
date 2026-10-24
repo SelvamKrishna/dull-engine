@@ -46,6 +46,7 @@ class ApplicationBuilder:
                 VENDOR_DIR,
                 VENDOR_DIR / "zen-log" / "include",
                 VENDOR_DIR / "zen-math" / "include",
+                VENDOR_DIR / "zen-crate" / "include",
             ),
             lib_dirs=(Path(self.dev_config["raylib_path"]),),
             libraries=("raylib", "winmm", "gdi32", "opengl32"),
